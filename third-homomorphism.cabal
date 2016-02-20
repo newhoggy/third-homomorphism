@@ -1,0 +1,68 @@
+cabal-version:  2.2
+
+name:                   third-homomorphism
+version:                0.7.1.0
+synopsis:               Bit manipulation
+description:            Please see README.md
+category:               Data, Bit
+stability:              Experimental
+homepage:               http://github.com/haskell-works/third-homomorphism#readme
+bug-reports:            https://github.com/haskell-works/third-homomorphism/issues
+author:                 John Ky
+maintainer:             newhoggy@gmail.com
+copyright:              2016-2019 John Ky
+license:                BSD-3-Clause
+license-file:           LICENSE
+tested-with:            GHC == 8.8.1, GHC == 8.6.5, GHC == 8.4.4, GHC == 8.2.2
+build-type:             Simple
+extra-source-files:     README.md
+
+source-repository head
+  type: git
+  location: https://github.com/haskell-works/third-homomorphism
+
+flag sse42
+  description: Enable SSE 4.2 optimisations.
+  manual: False
+  default: True
+
+common base                     { build-depends: base                 >= 4          && < 5      }
+
+common criterion                { build-depends: criterion            >= 1.2        && < 1.6    }
+common hedgehog                 { build-depends: hedgehog             >= 0.6        && < 1.1    }
+common hspec                    { build-depends: hspec                >= 2.4        && < 3      }
+common hw-hspec-hedgehog        { build-depends: hw-hspec-hedgehog    >= 0.1.0.4    && < 0.2    }
+
+common third-homomorphism
+  build-depends:        third-homomorphism
+
+common config
+  default-language:     Haskell2010
+  ghc-options:          -Wall -O2
+
+library
+  import:               base, config
+  exposed-modules:      Third.Homomorphism
+  other-modules:        Paths_third_homomorphism
+  autogen-modules:      Paths_third_homomorphism
+  hs-source-dirs:       src
+
+test-suite third-homomorphism-test
+  import:               base, config
+                      , hspec
+                      , third-homomorphism
+                      , hw-hspec-hedgehog
+  type:                 exitcode-stdio-1.0
+  main-is:              Spec.hs
+  -- other-modules:        
+  hs-source-dirs:       test
+  ghc-options:          -threaded -rtsopts -with-rtsopts=-N
+  build-tool-depends:   hspec-discover:hspec-discover
+
+benchmark bench
+  import:               base, config
+                      , criterion
+                      , third-homomorphism
+  type:                 exitcode-stdio-1.0
+  main-is:              Main.hs
+  hs-source-dirs:       bench

@@ -1,4 +1,5 @@
 dist
+dist-newstyle
 cabal-dev
 *.o
 *.hi
@@ -13,4 +14,16 @@ cabal.sandbox.config
 *.prof
 *.aux
 *.hp
-.stack-work/
+
+/*.submodules
+/.stack-work/
+/result
+/deps
+/*.json
+/*.json.ib
+/*.json.bp
+/snapshot.yaml
+/stack-ci.yaml
+/.ghc.environment.*
+/cabal.project.local
+
