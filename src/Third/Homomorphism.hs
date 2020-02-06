@@ -9,6 +9,8 @@ module Third.Homomorphism
   , mappendTree
   , mappendTreeDn
   , mappendTreeUp
+  , maxPath
+  , maxPathUp
   ) where
 
 data Tree a = Bin a (Tree a) (Tree a) | Tip
@@ -42,3 +44,12 @@ mappendTreeUp :: Monoid a => Zipper a -> a
 mappendTreeUp []                 = mempty
 mappendTreeUp (Left  (a, lt):rz) = mappendTree   lt <> (a <> mappendTreeUp rz)
 mappendTreeUp (Right (a, rt):lz) = mappendTreeUp lz <> (a <> mappendTree   rt)
+
+maxPath :: Tree Int -> Int
+maxPath Tip           = 0
+maxPath (Bin n lt rt) = n + max (maxPath lt) (maxPath rt)
+
+maxPathUp :: Zipper Int -> (Int, Int)
+maxPathUp []                 = (0, 0)
+maxPathUp (Left  (n, lt):rz) = let (m, w) = maxPathUp rz in (n + max m (maxPath lt), n + w)
+maxPathUp (Right (n, rt):lz) = let (m, w) = maxPathUp lz in (n + max m (maxPath rt), n + w)
