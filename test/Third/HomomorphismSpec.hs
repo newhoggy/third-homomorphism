@@ -24,3 +24,7 @@ spec = describe "Third.HomomorphismSpec" $ do
     t <- forAll $ fmap (fmap Sum) $ G.tree (R.linear 0 10) (G.int (R.linear 0 10))
     z <- forAll $ G.randomWalk t
     H.mappendTreeDn z === H.mappendTreeUp z
+  it "downward weight equals upward weight" $ requireProperty $ do
+    t <- forAll $ G.tree (R.linear 0 10) (G.int (R.linear 0 10))
+    z <- forAll $ G.randomWalk t
+    H.maxPathDn z === H.maxPathUp z

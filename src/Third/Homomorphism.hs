@@ -10,6 +10,7 @@ module Third.Homomorphism
   , mappendTreeDn
   , mappendTreeUp
   , maxPath
+  , maxPathDn
   , maxPathUp
   ) where
 
@@ -48,6 +49,13 @@ mappendTreeUp (Right (a, rt):lz) = mappendTreeUp lz <> (a <> mappendTree   rt)
 maxPath :: Tree Int -> Int
 maxPath Tip           = 0
 maxPath (Bin n lt rt) = n + max (maxPath lt) (maxPath rt)
+
+maxPathDn :: Zipper Int -> (Int, Int)
+maxPathDn = dn . reverse
+  where dn :: Zipper Int -> (Int, Int)
+        dn []                 = (0, 0)
+        dn (Left  (n, lt):rz) = let (m, w) = dn rz in (max m (w + n + maxPath lt), w + n)
+        dn (Right (n, rt):lz) = let (m, w) = dn lz in (max m (w + n + maxPath rt), w + n)
 
 maxPathUp :: Zipper Int -> (Int, Int)
 maxPathUp []                 = (0, 0)
