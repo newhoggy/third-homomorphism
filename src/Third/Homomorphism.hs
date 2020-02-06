@@ -12,6 +12,8 @@ module Third.Homomorphism
   , maxPath
   , maxPathDn
   , maxPathUp
+  , maxPathRi
+  , maxPathRiAppend
   ) where
 
 data Tree a = Bin a (Tree a) (Tree a) | Tip
@@ -61,3 +63,9 @@ maxPathUp :: Zipper Int -> (Int, Int)
 maxPathUp []                 = (0, 0)
 maxPathUp (Left  (n, lt):rz) = let (m, w) = maxPathUp rz in (n + max m (maxPath lt), n + w)
 maxPathUp (Right (n, rt):lz) = let (m, w) = maxPathUp lz in (n + max m (maxPath rt), n + w)
+
+maxPathRi :: (Int, Int) -> [Either (Int, Tree Int)  (Int, Tree Int)]
+maxPathRi (m, w) = [Left (w, Bin (m - w) Tip Tip)]
+
+maxPathRiAppend :: (Int, Int) -> (Int, Int) -> (Int, Int)
+maxPathRiAppend (m1, w1) (m2, w2) = maxPathDn (maxPathRi (m1, w1) ++ maxPathRi (m2, w2))
