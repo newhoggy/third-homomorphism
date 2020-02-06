@@ -1,3 +1,6 @@
+{-# LANGUAGE FlexibleInstances #-}
+{-# LANGUAGE InstanceSigs      #-}
+
 module Third.Homomorphism
   ( Tree(..)
   , Zipper
@@ -10,6 +13,10 @@ module Third.Homomorphism
 
 data Tree a = Bin a (Tree a) (Tree a) | Tip
   deriving (Eq, Show)
+
+instance Functor Tree where
+  fmap _ Tip           = Tip
+  fmap f (Bin a lt rt) = Bin (f a) (fmap f lt) (fmap f rt)
 
 type Zipper a = [Either (a, Tree a) (a, Tree a)]
 

@@ -2,6 +2,7 @@ module Third.HomomorphismSpec
   ( spec
   ) where
 
+import Data.Monoid
 import HaskellWorks.Hspec.Hedgehog
 import Hedgehog
 import Test.Hspec
@@ -19,3 +20,7 @@ spec = describe "Third.HomomorphismSpec" $ do
     n <- forAll $ G.int (R.linear 0 10)
     t <- forAll $ G.treeSized n (G.int (R.linear 0 10))
     H.sizeTree t === n
+  it "downward sum equals upward sum" $ requireProperty $ do
+    t <- forAll $ fmap (fmap Sum) $ G.tree (R.linear 0 10) (G.int (R.linear 0 10))
+    z <- forAll $ G.randomWalk t
+    H.mappendTreeDn z === H.mappendTreeUp z

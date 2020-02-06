@@ -3,6 +3,7 @@
 module Third.Homomorphism.Gen
   ( tree
   , treeSized
+  , randomWalk
   ) where
 
 import Hedgehog
@@ -26,3 +27,11 @@ treeSized n g = if
       b <- treeSized (n - 1 - i) g
       return (Bin x a b)
   | otherwise -> error "Invalid tree size"
+
+randomWalk :: MonadGen m => Tree a -> m (Zipper a)
+randomWalk Tip = pure []
+randomWalk (Bin x lt rt) = do
+  chooseLeft <- G.bool
+  if chooseLeft
+    then (Left (x, rt):) <$> randomWalk lt
+    else (Left (x, lt):) <$> randomWalk rt
