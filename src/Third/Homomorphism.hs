@@ -17,6 +17,7 @@ module Third.Homomorphism
   , t2zLt
   , t2zRt
   , t2zAlt
+  , maxPathPar
   ) where
 
 data Tree a = Bin a (Tree a) (Tree a) | Tip
@@ -89,3 +90,16 @@ t2zAlt = goL
         goR :: Tree a -> Zipper a
         goR (Bin a lt rt) = Right (a, lt):goL rt
         goR Tip           = []
+
+maxPathPar :: Zipper Int -> Int
+maxPathPar = fst . go
+  where go :: Zipper Int -> (Int, Int)
+        go []             = (0, 0)
+        go [Left  (n, t)] = (n + maxPath t, n)
+        go [Right (n, t)] = (n + maxPath t, n)
+        go zs = (max m1 (w1 + m2), w1 + w2)
+          where j         = length zs `div` 2
+                zl        = take j zs
+                zr        = drop j zs
+                (m1, w1)  = go zl
+                (m2, w2)  = go zr
