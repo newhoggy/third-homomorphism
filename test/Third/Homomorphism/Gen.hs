@@ -7,7 +7,7 @@ module Third.Homomorphism.Gen
   ) where
 
 import Hedgehog
-import Third.Homomorphism
+import Third.Homomorphism.Type
 
 import qualified Hedgehog.Gen   as G
 import qualified Hedgehog.Range as R

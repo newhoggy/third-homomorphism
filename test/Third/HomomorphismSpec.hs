@@ -7,10 +7,11 @@ import HaskellWorks.Hspec.Hedgehog
 import Hedgehog
 import Test.Hspec
 
-import qualified Hedgehog.Gen           as G
-import qualified Hedgehog.Range         as R
-import qualified Third.Homomorphism     as H
-import qualified Third.Homomorphism.Gen as G
+import qualified Hedgehog.Gen            as G
+import qualified Hedgehog.Range          as R
+import qualified Third.Homomorphism      as H
+import qualified Third.Homomorphism.Gen  as G
+import qualified Third.Homomorphism.Type as H
 
 {-# ANN module ("HLint: ignore Redundant do" :: String) #-}
 
