@@ -2,6 +2,7 @@ module Third.Homomorphism
   ( Tree(..)
   , Zipper
   , z2t
+  , sizeTree
   , mappendTree
   , mappendTreeDn
   , mappendTreeUp
@@ -16,6 +17,10 @@ z2t :: Zipper a -> Tree a
 z2t []                 = Tip
 z2t (Left  (a, lt):rz) = Bin a  lt       (z2t rz)
 z2t (Right (a, rt):lz) = Bin a (z2t lz)   rt
+
+sizeTree :: Tree a -> Int
+sizeTree Tip         = 0
+sizeTree (Bin _ a b) = 1 + sizeTree a + sizeTree b
 
 mappendTree :: Monoid a => Tree a -> a
 mappendTree Tip           = mempty
