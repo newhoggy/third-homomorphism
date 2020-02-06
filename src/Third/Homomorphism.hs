@@ -1,8 +1,5 @@
 module Third.Homomorphism
-  ( mappendTree
-  , mappendTreeDn
-  , mappendTreeUp
-  , maxPath
+  ( maxPath
   , maxPathDn
   , maxPathUp
   , maxPathRi
@@ -11,20 +8,6 @@ module Third.Homomorphism
   ) where
 
 import Third.Homomorphism.Type
-
-mappendTree :: Monoid a => Tree a -> a
-mappendTree Tip           = mempty
-mappendTree (Bin a lt rt) = a <> mappendTree lt <> mappendTree rt
-
-mappendTreeDn :: Monoid a => Zipper a -> a
-mappendTreeDn []                 = mempty
-mappendTreeDn (Left  (a, lt):rz) = (mappendTree   lt <> a) <> mappendTreeDn rz
-mappendTreeDn (Right (a, rt):lz) = (mappendTreeDn lz <> a) <> mappendTree   rt
-
-mappendTreeUp :: Monoid a => Zipper a -> a
-mappendTreeUp []                 = mempty
-mappendTreeUp (Left  (a, lt):rz) = mappendTree   lt <> (a <> mappendTreeUp rz)
-mappendTreeUp (Right (a, rt):lz) = mappendTreeUp lz <> (a <> mappendTree   rt)
 
 maxPath :: Tree Int -> Int
 maxPath Tip           = 0

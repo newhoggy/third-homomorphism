@@ -43,6 +43,7 @@ common config
 library
   import:               base, config
   exposed-modules:      Third.Homomorphism
+                        Third.Homomorphism.Fold
                         Third.Homomorphism.Type
   other-modules:        Paths_third_homomorphism
   autogen-modules:      Paths_third_homomorphism

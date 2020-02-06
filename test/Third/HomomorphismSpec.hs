@@ -10,6 +10,7 @@ import Test.Hspec
 import qualified Hedgehog.Gen            as G
 import qualified Hedgehog.Range          as R
 import qualified Third.Homomorphism      as H
+import qualified Third.Homomorphism.Fold as H
 import qualified Third.Homomorphism.Gen  as G
 import qualified Third.Homomorphism.Type as H
 
@@ -24,7 +25,7 @@ spec = describe "Third.HomomorphismSpec" $ do
   it "downward sum equals upward sum" $ requireProperty $ do
     t <- forAll $ fmap (fmap Sum) $ G.tree (R.linear 0 10) (G.int (R.linear 0 10))
     z <- forAll $ G.randomWalk t
-    H.mappendTreeDn z === H.mappendTreeUp z
+    H.foldTreeDn z === H.foldTreeUp z
   it "downward weight equals upward weight" $ requireProperty $ do
     t <- forAll $ G.tree (R.linear 0 10) (G.int (R.linear 0 10))
     z <- forAll $ G.randomWalk t
