@@ -2,6 +2,7 @@ module Third.HomomorphismSpec
   ( spec
   ) where
 
+import Control.Monad
 import Data.Monoid
 import HaskellWorks.Hspec.Hedgehog
 import Hedgehog
@@ -30,3 +31,7 @@ spec = describe "Third.HomomorphismSpec" $ do
     t <- forAll $ G.tree (R.linear 0 10) (G.int (R.linear 0 10))
     z <- forAll $ G.randomWalk t
     H.maxPathDn z === H.maxPathUp z
+  fit "moo" $ requireProperty $ do
+    t <- forAll $ G.treeSized 10 (G.int (R.linear 0 10))
+    annotateShow t
+    assert False
