@@ -2,7 +2,6 @@ module Third.HomomorphismSpec
   ( spec
   ) where
 
-import Data.Monoid
 import HaskellWorks.Hspec.Hedgehog
 import Hedgehog
 import Test.Hspec
